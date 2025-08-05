@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "507381784014",
+    "firebase_url": "https://threadapp-d3da2-default-rtdb.firebaseio.com",
+    "project_id": "threadapp-d3da2",
+    "storage_bucket": "threadapp-d3da2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507381784014:android:603a9eb5bcdfb5e2025f9f",
+        "android_client_info": {
+          "package_name": "com.mo7.todo_riverpod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6vp5EvKyQ6s5GCarkDkRDd27C6hDP6pM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
