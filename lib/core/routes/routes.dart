@@ -21,7 +21,7 @@ final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
 GoRouter goRouter(Ref ref) {
   final firebaseAuth = ref.watch(firebaseAuthProvider);
   return GoRouter(
-    initialLocation: AppRoutes.main,
+    initialLocation: AppRoutes.signIn,
     debugLogDiagnostics: true,
     redirect: (context, state) {
       final isLoggedIn = firebaseAuth.currentUser != null;
