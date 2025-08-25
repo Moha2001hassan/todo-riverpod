@@ -12,12 +12,10 @@ class AuthRepository {
   }
 
   Future<void> signUp(String email, String password) async {
-    final credential = await _auth.createUserWithEmailAndPassword(
+    await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
-    final user = credential.user;
-    await user?.sendEmailVerification();
   }
 
   Future<void> signOut() async {

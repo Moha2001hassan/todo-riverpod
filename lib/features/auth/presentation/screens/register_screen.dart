@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_riverpod/core/common_widgets/async_value_ui.dart';
 
+import '../../../../core/helpers/show_snackbar.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../utils/size_config.dart';
 import '../../../../utils/styles.dart';
-import '../widgets/common_btn.dart';
+import '../controllers/auth_controller.dart';
 import '../widgets/common_text_field.dart';
 import '../widgets/login_icon_btn.dart';
 import '../widgets/or_divider.dart';
@@ -27,6 +29,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
+    final state = ref.watch(authControllerProvider);
+    ref.listen(authControllerProvider, (_, state) {
+      state.showAlertDialogOnError(context);
+    });
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -39,10 +45,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Text(
-                  'Register a new account',
-                  style: AppStyles.titleTextStyle,
-                ),
+                Text('Register a new account', style: AppStyles.titleTextStyle),
                 SizedBox(height: SizeConfig.getProportionateHeight(25)),
                 CommonTextField(
                   controller: _emailController,
@@ -71,7 +74,33 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ],
                 ),
                 SizedBox(height: SizeConfig.getProportionateHeight(20)),
-                CommonButton(title: 'Register', onTap: () {}),
+
+                //CommonButton(title: 'Register', onTap: _validateDetails),
+                Material(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(15),
+                  child: InkWell(
+                    onTap: _validateDetails,
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: SizeConfig.getProportionateHeight(50),
+                      width: SizeConfig.screenWidth,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: state.isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              'Register',
+                              style: AppStyles.titleTextStyle.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+
                 SizedBox(height: SizeConfig.getProportionateHeight(10)),
                 OrDivider(),
                 SizedBox(height: SizeConfig.getProportionateHeight(10)),
@@ -115,13 +144,30 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _validateDetails() {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      showSnackBar(
+        context: context,
+        message: 'Please fill all the fields',
+        color: Colors.red,
+      );
+    } else {
+      ref
+          .read(authControllerProvider.notifier)
+          .createUserWithEmailAndPassword(email: email, password: password);
+    }
   }
 
   @override
