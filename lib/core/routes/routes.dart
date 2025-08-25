@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:todo_riverpod/features/task_management/presentation/screens/add_task_screen.dart';
 
 import '../../features/auth/presentation/screens/signin_screen.dart';
 import '../../features/task_management/presentation/screens/main_screen.dart';
@@ -11,7 +12,7 @@ import 'go_router_refresh_stream.dart';
 
 part 'routes.g.dart';
 
-enum AppRouter { home, signIn, register }
+enum AppRouter { home, signIn, register , addTask}
 
 final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
@@ -52,6 +53,11 @@ GoRouter goRouter(Ref ref) {
         path: AppRoutes.register,
         name: AppRouter.register.name,
         builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.addTask,
+        name: AppRouter.addTask.name,
+        builder: (context, state) => const AddTaskScreen(),
       ),
     ],
   );
