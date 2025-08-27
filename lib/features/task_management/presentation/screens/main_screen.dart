@@ -23,10 +23,11 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging == false) {
+    _tabController.animation!.addListener(() {
+      final newIndex = _tabController.animation!.value.round();
+      if (newIndex != currentIndex) {
         setState(() {
-          currentIndex = _tabController.index;
+          currentIndex = newIndex;
         });
       }
     });
