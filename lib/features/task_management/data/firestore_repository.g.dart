@@ -7,7 +7,7 @@ part of 'firestore_repository.dart';
 // **************************************************************************
 
 String _$firestoreRepositoryHash() =>
-    r'0e8d2df1d21e116228f369461d7e8306873b6013';
+    r'95c1c445734f56d18e7408d875baf5988563dc72';
 
 /// See also [firestoreRepository].
 @ProviderFor(firestoreRepository)

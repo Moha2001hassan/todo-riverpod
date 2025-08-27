@@ -1,15 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/firestore_repository.dart';
 import '../../domain/task.dart';
 
-class FirestoreController extends AsyncNotifier<void> {
+part 'firestore_controller.g.dart';
+
+@Riverpod(keepAlive: true)
+class FirestoreController extends _$FirestoreController {
   @override
-  FutureOr<void> build() {
-    throw UnimplementedError();
-  }
+  FutureOr<void> build() {}
 
   Future<void> addTask({required Task task, required String userId}) async {
     state = const AsyncLoading();

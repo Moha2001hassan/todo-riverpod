@@ -7,10 +7,10 @@ class Task {
   final String priority;
 
   Task({
-    required this.id,
+     this.id = '',
     required this.title,
     required this.description,
-    required this.isCompleted,
+    this.isCompleted = false,
     required this.date,
     required this.priority,
   });
