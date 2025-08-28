@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_riverpod/features/auth/data/auth_repository.dart';
 import 'package:todo_riverpod/features/task_management/data/firestore_repository.dart';
@@ -128,17 +129,18 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                   ),
                 ),
 
+                SizedBox(height: SizeConfig.getProportionateHeight(10)),
+
                 CircleAvatar(
                   backgroundColor: Colors.blue,
                   radius: 20,
                   child: IconButton(
                     icon: const Icon(Icons.edit),
                     color: Colors.white,
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                   ),
                 ),
+                SizedBox(height: SizeConfig.getProportionateHeight(10)),
                 CircleAvatar(
                   backgroundColor: Colors.red,
                   radius: 20,
@@ -146,20 +148,55 @@ class _TaskItemState extends ConsumerState<TaskItem> {
                     icon: const Icon(Icons.delete),
                     color: Colors.white,
                     onPressed: () {
-                      // final userId = ref.read(currentUserProvider)!.uid;
-                      // ref.read(firestoreRepositoryProvider).deleteTask(
-                      //   taskId: widget.task.id,
-                      //   userId: userId,
-                      // );
+                      _deleteTask(widget.task.id);
                     },
                   ),
-                )
-
+                ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  void _deleteTask(String taskId) {
+    final userId = ref.read(currentUserProvider)!.uid;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Are you sure', style: AppStyles.titleTextStyle),
+          icon: const Icon(Icons.warning_rounded, size: 60, color: Colors.red),
+          alignment: Alignment.center,
+          content: Text('Click Delete button to delete this task'),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+              onPressed: () => context.pop(),
+              child: Text(
+                'Cancel',
+                style: AppStyles.normalTextStyle.copyWith(color: Colors.white),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () async {
+                await ref
+                    .read(firestoreRepositoryProvider)
+                    .deleteTask(taskId: taskId, userId: userId);
+
+                if(context.mounted) context.pop();
+              },
+              child: Text(
+                'Delete',
+                style: AppStyles.normalTextStyle.copyWith(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
