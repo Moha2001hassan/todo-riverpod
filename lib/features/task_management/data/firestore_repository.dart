@@ -95,24 +95,29 @@ class FirestoreRepository {
   }
 }
 
+// _________________________ RIVERPOD _________________________
 @Riverpod(keepAlive: true)
 FirestoreRepository firestoreRepository(Ref ref) {
   return FirestoreRepository(FirebaseFirestore.instance);
 }
 
+@riverpod
 Stream<List<Task>> loadTasks(Ref ref, String userId) {
   final firestoreRepository = ref.watch(firestoreRepositoryProvider);
   return firestoreRepository.loadTasks(userId);
 }
 
+@riverpod
 Stream<List<Task>> loadCompletedTasks(Ref ref, String userId) {
   final firestoreRepository = ref.watch(firestoreRepositoryProvider);
   return firestoreRepository.loadCompletedTasks(userId);
 }
 
+@riverpod
 Stream<List<Task>> loadInCompletedTasks(Ref ref, String userId) {
   final firestoreRepository = ref.watch(firestoreRepositoryProvider);
   return firestoreRepository.loadInCompletedTasks(userId);
 }
+// _________________________ RIVERPOD _________________________
 
 // dart run build_runner build --delete-conflicting-outputs

@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:todo_riverpod/utils/size_config.dart';
 
 import 'core/routes/routes.dart';
 import 'firebase_options.dart';
@@ -18,6 +20,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    SizeConfig.init(context);
     final goRouter = ref.watch(goRouterProvider);
     return MaterialApp.router(
       routerConfig: goRouter,
@@ -30,9 +33,9 @@ class MyApp extends ConsumerWidget {
           foregroundColor: Colors.white,
           centerTitle: true,
         ),
+        fontFamily: GoogleFonts.mcLaren().fontFamily,
         useMaterial3: true,
       ),
-      //home: const MainScreen(),
     );
   }
 }
